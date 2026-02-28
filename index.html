@@ -6,7 +6,7 @@
 <title>SLO — A Long Weekend</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Anybody:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&family=Anybody:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
@@ -432,7 +432,7 @@
      ══════════════════════════════════ */
   .back-to-top {
     position: fixed;
-    bottom: 1.5rem;
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
     right: 1.5rem;
     width: 44px;
     height: 44px;
@@ -498,6 +498,7 @@
     align-items: center;
     gap: 0;
     padding: 0.55rem 1rem;
+    padding-top: calc(0.55rem + env(safe-area-inset-top, 0px));
     background: rgba(245,240,232,0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -571,7 +572,9 @@
     text-transform: uppercase;
     color: var(--fade);
     text-decoration: none;
-    padding: 0.35rem 0;
+    padding: 0.55rem 0.1rem;
+    min-height: 44px;
+    min-width: 44px;
     transition: color 0.2s ease;
   }
   .yelp-link:active,
@@ -619,15 +622,14 @@
   }
   .map-wrap {
     position: relative;
-    width: 100%;
-    height: 65vh;
-    min-height: 400px;
-    max-height: 700px;
+    height: 50vh;
+    min-height: 350px;
+    max-height: 600px;
     border: 1px solid rgba(28,26,22,0.08);
     border-radius: 12px;
     overflow: hidden;
-    margin: 0 1.5rem;
-    width: calc(100% - 3rem);
+    margin: 0 auto;
+    width: 100%;
     box-shadow: inset 0 2px 8px rgba(28,26,22,0.04);
   }
   #guide-map {
@@ -649,8 +651,8 @@
     font-size: 0.85rem;
     line-height: 1.45;
     color: var(--ink);
-    max-width: 260px;
-    min-width: 200px;
+    max-width: min(260px, calc(100vw - 80px));
+    min-width: min(200px, calc(100vw - 100px));
   }
   .leaflet-popup-content strong {
     font-family: 'Instrument Serif', Georgia, serif;
@@ -691,7 +693,10 @@
     text-transform: uppercase;
     text-decoration: none;
     color: var(--fade);
-    padding: 0.3rem 0;
+    padding: 0.5rem 0.15rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
     transition: color 0.15s;
   }
   .leaflet-popup-content .popup-link:hover {
@@ -784,13 +789,55 @@
   }
 
   /* ══════════════════════════════════
+     MAP TOUCH OVERLAY
+     ══════════════════════════════════ */
+  .map-touch-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 500;
+    background: rgba(28,26,22,0.45);
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .map-touch-overlay.is-visible {
+    opacity: 1;
+  }
+  .map-touch-overlay span {
+    font-family: 'Anybody', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(28,26,22,0.7);
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  @media (pointer: coarse) {
+    .map-touch-overlay { display: flex; }
+  }
+
+  /* ══════════════════════════════════
      RESPONSIVE
      ══════════════════════════════════ */
-  @media (max-width: 360px) {
+  @media (max-width: 420px) {
     .alt-grid { grid-template-columns: 1fr; }
     .alt-card.featured { border-left: none; padding-left: 0.85rem; }
+  }
+  @media (max-width: 360px) {
     .hero h1 { font-size: 4.5rem; }
     .hero-sub { font-size: 1rem; }
+  }
+  @media (min-width: 768px) {
+    .map-wrap { height: 65vh; max-height: 700px; min-height: 450px; }
+    .leaflet-popup-content { max-width: 300px; min-width: 220px; }
+    .content { max-width: 640px; margin: 0 auto; }
   }
 
   /* ══════════════════════════════════
@@ -818,6 +865,7 @@
     .day-nav-pill, .day-nav-pill::after { transition-duration: 0.01ms; }
   }
 </style>
+<noscript><style>.reveal { opacity: 1; transform: none; } .pull-rule { width: 2rem; } .day-divider-line { transform: scaleX(1); }</style></noscript>
 </head>
 <body>
 
@@ -1205,6 +1253,7 @@
   <div class="map-legend" id="map-legend"></div>
   <div class="map-wrap reveal">
     <div id="guide-map" role="application" aria-label="Interactive map of all guide venues"></div>
+    <div class="map-touch-overlay" id="map-touch-overlay"><span>Use two fingers to move the map</span></div>
   </div>
 </div>
 
@@ -1533,13 +1582,16 @@
       mapEl.appendChild(msg);
       return;
     }
+    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     map = L.map('guide-map', {
       center: [35.2800, -120.6625],
       zoom: 14,
-      scrollWheelZoom: true,
+      scrollWheelZoom: !isTouchDevice,
       zoomControl: true,
       attributionControl: true,
-      tap: true
+      tap: true,
+      dragging: !isTouchDevice,
+      touchZoom: true
     });
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -1598,6 +1650,39 @@
 
     // Store full bounds for "show all" button
     var allBounds = L.featureGroup(markers).getBounds().pad(0.08);
+
+    // Touch overlay: show "use two fingers" on single-finger drag attempts
+    if (isTouchDevice) {
+      var overlay = document.getElementById('map-touch-overlay');
+      var overlayTimer = null;
+
+      function showOverlay() {
+        overlay.classList.add('is-visible');
+        clearTimeout(overlayTimer);
+        overlayTimer = setTimeout(function() {
+          overlay.classList.remove('is-visible');
+        }, 1500);
+      }
+
+      mapEl.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          // One finger — allow vertical scroll to pass through
+          showOverlay();
+        } else if (e.touches.length >= 2) {
+          // Two fingers — enable dragging temporarily for pinch-zoom
+          overlay.classList.remove('is-visible');
+          clearTimeout(overlayTimer);
+          map.dragging.enable();
+        }
+      }, { passive: true });
+
+      mapEl.addEventListener('touchend', function(e) {
+        if (e.touches.length === 0) {
+          // All fingers lifted — disable dragging again
+          setTimeout(function() { map.dragging.disable(); }, 100);
+        }
+      }, { passive: true });
+    }
 
     // Fix tile rendering after reveal animation
     var mapWrap = mapEl.closest('.map-wrap');
