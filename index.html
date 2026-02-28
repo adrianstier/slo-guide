@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SLO — A Long Weekend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Anybody:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5f0e8;
+    --warm: #ede6d8;
+    --ink: #1c1a16;
+    --mid: #5c5647;
+    --fade: #9e9688;
+    --gold: #b8943e;
+    --gold-light: #d4b662;
+    --terra: #c4714a;
+    --sage: #7a8c6e;
+    --cream: #faf7f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Newsreader', Georgia, serif;
+    background: var(--sand);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════════
+     HERO
+     ══════════════════════════════════ */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, #c4956a 0%, #8ba4a0 40%, #6b8ea3 70%, #d4a96a 100%);
+    background-size: 200% 200%;
+    animation: heroShift 12s ease-in-out infinite;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(28,26,22,0) 30%, rgba(28,26,22,0.65) 100%);
+  }
+  @keyframes heroShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-tag {
+    font-family: 'Newsreader', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.75rem;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: heroFadeIn 0.8s ease-out 0.3s forwards;
+  }
+  .hero h1 {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: clamp(5rem, 22vw, 8rem);
+    color: #fff;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroFadeIn 0.9s ease-out 0.1s forwards;
+  }
+  .hero-sub {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.75);
+    font-style: italic;
+    margin-top: 0.75rem;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: heroFadeIn 0.8s ease-out 0.5s forwards;
+  }
+  @keyframes heroFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    writing-mode: vertical-rl;
+    z-index: 2;
+    animation: scrollPulse 2.5s ease-in-out 1.5s infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.35; transform: translateY(0); }
+    50% { opacity: 0.6; transform: translateY(4px); }
+  }
+
+  /* ══════════════════════════════════
+     CONTENT
+     ══════════════════════════════════ */
+  .content { padding: 0 1.5rem; }
+
+  /* ══════════════════════════════════
+     SCROLL REVEAL
+     ══════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ══════════════════════════════════
+     SECTION
+     ══════════════════════════════════ */
+  .section { padding: 3rem 0 2rem; }
+  .section + .section { border-top: 1px solid rgba(28,26,22,0.08); }
+
+  .section-num {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 800;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.75rem;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+  }
+  .section-subtitle {
+    font-family: 'Newsreader', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fade);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ══════════════════════════════════
+     VENUE CARD
+     ══════════════════════════════════ */
+  .card {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 1.15rem 1.15rem 1rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    border: 1px solid rgba(28,26,22,0.04);
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+    will-change: transform;
+  }
+  .card:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(28,26,22,0.08);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.35rem;
+  }
+  .card-name {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .card-tag {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fade);
+    background: var(--sand);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 0.75rem;
+    margin-top: 0.15rem;
+  }
+  .card-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+  .card-desc strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .card a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(184,148,62,0.3);
+    transition: border-color 0.2s ease;
+  }
+  .card a:active {
+    border-color: var(--gold);
+  }
+
+  /* ══════════════════════════════════
+     TIMELINE
+     ══════════════════════════════════ */
+  .timeline {
+    position: relative;
+    padding-left: 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 1.75rem;
+    top: 1.4rem;
+    bottom: 0.8rem;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(196,113,74,0) 0%,
+      rgba(196,113,74,0.2) 8%,
+      rgba(196,113,74,0.2) 92%,
+      rgba(196,113,74,0) 100%
+    );
+  }
+
+  .tl-entry {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0 0.85rem;
+    margin-bottom: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(28,26,22,0.05);
+    position: relative;
+  }
+  .tl-entry:last-child { border-bottom: none; }
+
+  .tl-time {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 800;
+    font-size: 0.72rem;
+    color: var(--terra);
+    padding-top: 0.15rem;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 1;
+  }
+  .tl-place {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .tl-desc {
+    font-size: 0.84rem;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.5;
+    margin-top: 0.2rem;
+  }
+
+  /* ══════════════════════════════════
+     ALSO WORTH IT
+     ══════════════════════════════════ */
+  .alt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .alt-card {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 0.9rem 0.85rem 0.75rem;
+    border: 1px solid rgba(28,26,22,0.04);
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+  }
+  .alt-card:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(28,26,22,0.07);
+  }
+  .alt-name {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 0.92rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .alt-type {
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fade);
+    margin-top: 0.15rem;
+    margin-bottom: 0.35rem;
+  }
+  .alt-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════
+     LINKS FOOTER
+     ══════════════════════════════════ */
+  .links-section {
+    padding: 2.5rem 0 4rem;
+    border-top: 1px solid rgba(28,26,22,0.08);
+  }
+  .links-title {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 800;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .link-group { margin-bottom: 1.25rem; }
+  .link-group-label {
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fade);
+    margin-bottom: 0.5rem;
+  }
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0;
+  }
+  .link-pill {
+    display: inline-block;
+    font-family: 'Newsreader', serif;
+    font-size: 0.82rem;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.3rem 0;
+    margin-right: 1.25rem;
+    border-bottom: 1px solid rgba(28,26,22,0.1);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  .link-pill:active {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ══════════════════════════════════
+     COLOPHON
+     ══════════════════════════════════ */
+  .colophon {
+    text-align: center;
+    padding: 1.5rem 0 3rem;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: var(--fade);
+    letter-spacing: 0.05em;
+  }
+
+  /* ══════════════════════════════════
+     PULL QUOTE
+     ══════════════════════════════════ */
+  .pull {
+    padding: 2rem 0;
+    margin: 0.5rem 0 1rem;
+  }
+  .pull-text {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .pull-text .em { color: var(--terra); }
+  .pull-rule {
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    margin-top: 1rem;
+    border-radius: 1px;
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .pull.is-visible .pull-rule {
+    width: 2rem;
+  }
+
+  /* ══════════════════════════════════
+     DAY DIVIDER
+     ══════════════════════════════════ */
+  .day-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0 0.25rem;
+  }
+  .day-divider .day-name {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .day-divider .day-label {
+    font-family: 'Newsreader', serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fade);
+  }
+  .day-divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(28,26,22,0.1);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+  }
+  .reveal.is-visible .day-divider-line {
+    transform: scaleX(1);
+  }
+
+  /* ══════════════════════════════════
+     BACK TO TOP
+     ══════════════════════════════════ */
+  .back-to-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+    pointer-events: none;
+    z-index: 100;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-to-top.is-shown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-to-top:active {
+    background: var(--mid);
+  }
+  .back-to-top svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--sand);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ══════════════════════════════════
+     FEATURED ALT CARDS
+     ══════════════════════════════════ */
+  .alt-card.featured {
+    grid-column: 1 / -1;
+    border-left: 2px solid var(--gold);
+    padding: 1rem 1rem 0.85rem 1.1rem;
+  }
+  .alt-card.featured .alt-name {
+    font-size: 1.02rem;
+  }
+
+  /* ══════════════════════════════════
+     STICKY DAY NAV
+     ══════════════════════════════════ */
+  .day-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    padding: 0.65rem 1rem;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(28,26,22,0.06);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+  .day-nav.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .day-nav-pill {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 800;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--fade);
+    text-decoration: none;
+    padding: 0.25rem 0.85rem;
+    position: relative;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .day-nav-pill.is-active {
+    color: var(--ink);
+  }
+  .day-nav-pill::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 1rem;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 1px;
+    transition: transform 0.3s ease;
+  }
+  .day-nav-pill.is-active::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  .day-nav-sep {
+    color: rgba(28,26,22,0.15);
+    font-size: 0.45rem;
+    line-height: 1;
+  }
+
+  /* ══════════════════════════════════
+     DIRECTIONS HINT
+     ══════════════════════════════════ */
+  .directions-link {
+    display: inline-block;
+    font-family: 'Newsreader', serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--gold);
+    text-decoration: none;
+    margin-top: 0.3rem;
+    padding: 0.15rem 0;
+    border-bottom: 1px solid rgba(184,148,62,0.3);
+    transition: border-color 0.2s ease;
+  }
+  .directions-link:active {
+    border-color: var(--gold);
+  }
+
+  /* ══════════════════════════════════
+     LINK SECTION REFINEMENTS
+     ══════════════════════════════════ */
+  .link-group {
+    margin-bottom: 1.6rem;
+    padding-left: 0.75rem;
+  }
+  .link-group-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.55rem;
+  }
+  .link-group-label::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+     ══════════════════════════════════ */
+  @media (max-width: 360px) {
+    .alt-grid { grid-template-columns: 1fr; }
+    .alt-card.featured { border-left: none; padding-left: 0.85rem; }
+    .hero h1 { font-size: 4.5rem; }
+    .hero-sub { font-size: 1rem; }
+  }
+
+  /* ══════════════════════════════════
+     PREFERS REDUCED MOTION
+     ══════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .hero-bg { animation: none; }
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+    .pull-rule { width: 2rem; }
+    .day-divider-line { transform: scaleX(1); }
+    .hero-tag, .hero h1, .hero-sub {
+      opacity: 1;
+      transform: none;
+    }
+    .hero-scroll { animation: none; opacity: 0.35; }
+    .day-nav { transition-duration: 0.01ms; }
+    .day-nav-pill, .day-nav-pill::after { transition-duration: 0.01ms; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag">A Long Weekend Guide</div>
+  <h1>SLO</h1>
+  <div class="hero-sub">Golf, wine, good smoke &amp; the Morros</div>
+  <div class="hero-scroll">scroll</div>
+</div>
+
+<!-- ═══════ DAY NAV ═══════ -->
+<nav class="day-nav" aria-label="Day navigation">
+  <a class="day-nav-pill" href="#day-fri" data-day="fri">FRI</a>
+  <span class="day-nav-sep">&middot;</span>
+  <a class="day-nav-pill" href="#day-sat" data-day="sat">SAT</a>
+  <span class="day-nav-sep">&middot;</span>
+  <a class="day-nav-pill" href="#day-sun" data-day="sun">SUN</a>
+</nav>
+
+<div class="content">
+
+<!-- ═══════ HOME BASE ═══════ -->
+<div class="section">
+  <div class="reveal">
+    <div class="section-num">Home Base</div>
+    <div class="section-title">Granada Hotel &amp; Bistro</div>
+    <div class="section-subtitle">1922 · 17 rooms · downtown Higuera St</div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-desc">Brick building from the twenties. Linus bikes at the door, rooftop terrace with a fireplace, Persian rugs over hardwood, original art in every room. Adults-oriented, walkable to everything.</div>
+  </div>
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">Granada Bistro</div>
+      <div class="card-tag">downstairs</div>
+    </div>
+    <div class="card-desc">Farm-to-table French-Cal. Dinner nightly, weekend brunch. Patio under string lights. Deep Central Coast wine list.</div>
+  </div>
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">Nightcap</div>
+      <div class="card-tag">speakeasy</div>
+    </div>
+    <div class="card-desc">Below the lobby. Dark, intimate, cocktails are excellent. The kind of bar you don't want to leave.</div>
+  </div>
+</div>
+
+<!-- ═══════ PROVISIONS ═══════ -->
+<div class="section">
+  <div class="reveal">
+    <div class="section-num">Provisions</div>
+    <div class="section-title">Hit These First</div>
+  </div>
+
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">Megan's Organic Market</div>
+      <div class="card-tag">dispensary</div>
+    </div>
+    <div class="card-desc">Downtown on Higuera. Top selection, browse-friendly layout. Flower, edibles, pre-rolls.</div>
+  </div>
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">Scout Coffee Co.</div>
+      <div class="card-tag">coffee</div>
+    </div>
+    <div class="card-desc">Own roasting company, two locations. Berlin-inspired. The morning anchor every day of the trip.</div>
+  </div>
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">Phoenix Books</div>
+      <div class="card-tag">used books</div>
+    </div>
+    <div class="card-desc">40+ years on Monterey St. Chaotic stacks, buried treasure. Mon–Sat 10–9, Sun 11–6.</div>
+  </div>
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">Linnaea's Cafe</div>
+      <div class="card-tag">since 1984</div>
+    </div>
+    <div class="card-desc">The OG SLO coffee spot. Organic fair-trade, garden courtyard, live music weekends. More soul than polish.</div>
+  </div>
+  <div class="card reveal">
+    <div class="card-top">
+      <div class="card-name">High Street Deli</div>
+      <div class="card-tag">since 1927</div>
+    </div>
+    <div class="card-desc">Legendary sandwiches. The Dutch Punch is famous. Grab one for the golf course or the hike.</div>
+  </div>
+</div>
+
+<!-- ═══════ FRIDAY ═══════ -->
+<div class="section" id="day-fri">
+  <div class="day-divider reveal">
+    <div class="day-name">FRI</div>
+    <div class="day-label">Arrive &amp; Wine</div>
+    <div class="day-divider-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-entry reveal">
+      <div class="tl-time">10 AM</div>
+      <div>
+        <div class="tl-place">Scout Coffee</div>
+        <div class="tl-desc">Pastry, espresso, ease into the weekend.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">11:30</div>
+      <div>
+        <div class="tl-place">Edna Valley</div>
+        <div class="tl-desc">10 min south. <strong>Biddle Ranch</strong> for the farmhouse patio and bocce. <strong>Baileyana</strong> in the 1880s schoolhouse. <strong>Tolosa</strong> for the deep dive. <strong>Claiborne &amp; Churchill</strong> for Alsatian dry Riesling. Bring a cooler.<br><a class="directions-link" href="https://maps.google.com/?q=Edna+Valley+wineries+San+Luis+Obispo" target="_blank" rel="noopener">↗ directions to Edna Valley</a></div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">3 PM</div>
+      <div>
+        <div class="tl-place">Check In</div>
+        <div class="tl-desc">Megan's first, then the Granada. Rooftop terrace, Linus bikes, settle in.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">4:30</div>
+      <div>
+        <div class="tl-place">Phoenix Books</div>
+        <div class="tl-desc">Post-wine browsing. Grab paperbacks for the rooftop.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">5:30</div>
+      <div>
+        <div class="tl-place">Luna Red</div>
+        <div class="tl-desc">Creekside patio by the Mission. Tapas, paella, craft cocktails. Happy hour is strong. Birria nachos, spicy marg.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">8 PM</div>
+      <div>
+        <div class="tl-place">Sidecar Cocktail Co.</div>
+        <div class="tl-desc">Basement speakeasy on the creek. Retro styling, serious cocktails. The namesake Sidecar is the order.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ PULL QUOTE ═══════ -->
+<div class="pull reveal">
+  <div class="pull-text">Morro Rock from the fairway, Pinot in the cooler, <span class="em">nowhere to be.</span></div>
+  <div class="pull-rule"></div>
+</div>
+
+<!-- ═══════ SATURDAY ═══════ -->
+<div class="section" id="day-sat">
+  <div class="day-divider reveal">
+    <div class="day-name">SAT</div>
+    <div class="day-label">Golf &amp; The Morros</div>
+    <div class="day-divider-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-entry reveal">
+      <div class="tl-time">7:30</div>
+      <div>
+        <div class="tl-place">Bishop Peak</div>
+        <div class="tl-desc">Tallest of the Nine Sisters. 4 mi round-trip, 1,000 ft gain. 360 views — ocean, valleys, town below. Go early, exposed after the oaks. Patricia Dr trailhead.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">10:30</div>
+      <div>
+        <div class="tl-place">Morro Bay Golf Course</div>
+        <div class="tl-desc">Ocean views from every hole. Morro Rock as your backdrop. Championship muni, iconic. 25 min from the Granada. Or stay in town — Dairy Creek for a quick 9.<br><a class="directions-link" href="https://maps.google.com/?q=Morro+Bay+Golf+Course+CA" target="_blank" rel="noopener">↗ directions to Morro Bay</a></div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">2 PM</div>
+      <div>
+        <div class="tl-place">Nate's on Marsh</div>
+        <div class="tl-desc">Late lunch in a converted house. Pappardelle w/ Tablas Creek lamb ragu. La Scala salad. Warm, personal.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">4 PM</div>
+      <div>
+        <div class="tl-place">Cheap Thrills</div>
+        <div class="tl-desc">Vinyl, CDs, vintage video games on Higuera. The record store SLO deserves.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">5:30</div>
+      <div>
+        <div class="tl-place">High Bar</div>
+        <div class="tl-desc">Rooftop at Hotel SLO. 360 views of the morros, bocce court, cocktails from the chef's garden. Best sunset in town.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">7:30</div>
+      <div>
+        <div class="tl-place">Ox + Anchor</div>
+        <div class="tl-desc">Hotel SLO steakhouse. Michelin-noted. Hanger steak, oysters, killer wine list. Open kitchen. The big night.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">LATE</div>
+      <div>
+        <div class="tl-place">Nightcap</div>
+        <div class="tl-desc">Speakeasy at the Granada. Or Luna Noche — Luna Red flips to DJs and dancing Fri/Sat.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SUNDAY ═══════ -->
+<div class="section" id="day-sun">
+  <div class="day-divider reveal">
+    <div class="day-name">SUN</div>
+    <div class="day-label">Slow Exit</div>
+    <div class="day-divider-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-entry reveal">
+      <div class="tl-time">9 AM</div>
+      <div>
+        <div class="tl-place">Sleep In</div>
+        <div class="tl-desc">Hotel coffee, rooftop terrace, watch the street wake up.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">10:30</div>
+      <div>
+        <div class="tl-place">Granada Bistro</div>
+        <div class="tl-desc">Weekend brunch at your own hotel. Seasonal menu, patio under string lights. No rush.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">12:30</div>
+      <div>
+        <div class="tl-place">Mistura</div>
+        <div class="tl-desc">Peruvian downtown. Pisco sour, ceviche on a hot stone, causa roll. One more meal you'll remember.</div>
+      </div>
+    </div>
+    <div class="tl-entry reveal">
+      <div class="tl-time">2 PM</div>
+      <div>
+        <div class="tl-place">Head Home</div>
+        <div class="tl-desc">Or detour through Morro Bay / Avila Beach on the way out.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ ALSO WORTH IT ═══════ -->
+<div class="section">
+  <div class="reveal">
+    <div class="section-num">If the Mood Strikes</div>
+    <div class="section-title">Also Worth It</div>
+    <div class="section-subtitle">Swap any of these in</div>
+  </div>
+
+  <div class="alt-grid">
+    <div class="alt-card featured reveal">
+      <div class="alt-name">La Esquina</div>
+      <div class="alt-type">Mexican + Mezcal</div>
+      <div class="alt-desc">Polished Mexican, premium mezcal bar. Best Margarita in SLO 2024. Brick walls, high ceilings.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Flour House</div>
+      <div class="alt-type">Pizza</div>
+      <div class="alt-desc">Wood-fired Neapolitan, top 50 in the USA. Creekside patio. The Calabrese with 'nduja.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Bear &amp; The Wren</div>
+      <div class="alt-type">Detroit Pizza</div>
+      <div class="alt-desc">The Creamery. Bee Sting with hot honey. Cast iron cookie for dessert. Seasonal menu.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Giuseppe's</div>
+      <div class="alt-type">Italian</div>
+      <div class="alt-desc">Best Restaurant in SLO 2024. 10-acre farm, wood-fired pizza, handmade pasta.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Novo</div>
+      <div class="alt-type">Dinner</div>
+      <div class="alt-desc">Best Outdoor Dining 21 years running. Creekside under mature trees. Global menu.</div>
+    </div>
+    <div class="alt-card featured reveal">
+      <div class="alt-name">Goshi</div>
+      <div class="alt-type">Sushi</div>
+      <div class="alt-desc">4.9 stars. $30 omakase, best sushi in the county. At The Creamery on Higuera.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Ember</div>
+      <div class="alt-type">Wood-Fire</div>
+      <div class="alt-desc">Arroyo Grande, 20 min. Michelin-mentioned. 50-layer lasagna, wild chanterelle pizza. <a class="directions-link" href="https://maps.google.com/?q=Ember+Restaurant+Arroyo+Grande+CA" target="_blank" rel="noopener">↗ map</a></div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Saints Barrel</div>
+      <div class="alt-type">Wine Bar</div>
+      <div class="alt-desc">Best Wine Bar 2024. Creekside patio, local + international wines, charcuterie towers.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">KROBAR</div>
+      <div class="alt-type">Distillery</div>
+      <div class="alt-desc">Craft spirits, tasting flights. Best Bartender 2024 winner. Next to Central Coast Brewing.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Kreuzberg</div>
+      <div class="alt-type">Coffee + Bar</div>
+      <div class="alt-desc">Boho-European cafe by day, cocktail lounge Thu–Sat. All-day-into-evening vibe.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Black Sheep</div>
+      <div class="alt-type">Gastropub</div>
+      <div class="alt-desc">Best Happy Hour 2024. Award-winning mac and cheese. Fireplace, locals.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">The Mark</div>
+      <div class="alt-type">Bar</div>
+      <div class="alt-desc">Big patio, live music Saturdays. Tapas, tacos, legendary margaritas.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Fremont Theater</div>
+      <div class="alt-type">Live Music</div>
+      <div class="alt-desc">Art deco gem. National acts come through regularly. Check schedule.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">SLO Brew Rock</div>
+      <div class="alt-type">Brewery</div>
+      <div class="alt-desc">Beer garden, fire pits, stage. Outside downtown near the airport.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Avila Beach Golf</div>
+      <div class="alt-type">Golf</div>
+      <div class="alt-desc">Estuary and ocean views. 30 min. A worthy third round.</div>
+    </div>
+    <div class="alt-card reveal">
+      <div class="alt-name">Madonna Inn</div>
+      <div class="alt-type">Experience</div>
+      <div class="alt-desc">The kitschy landmark. Gold Rush Steak House for the spectacle.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ LINKS ═══════ -->
+<div class="links-section reveal">
+  <div class="links-title">Links</div>
+
+  <div class="link-group">
+    <div class="link-group-label">Stay</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://www.granadahotelandbistro.com">Granada Hotel</a>
+      <a class="link-pill" href="https://hotel-slo.com">Hotel SLO</a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <div class="link-group-label">Golf</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://dairycreekslo.com">Dairy Creek</a>
+      <a class="link-pill" href="https://golfmorrobay.com">Morro Bay</a>
+      <a class="link-pill" href="https://www.avilabeachresort.com">Avila Beach</a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <div class="link-group-label">Wine</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://www.biddleranch.com">Biddle Ranch</a>
+      <a class="link-pill" href="https://www.baileyana.com">Baileyana</a>
+      <a class="link-pill" href="https://www.tolosawinery.com">Tolosa</a>
+      <a class="link-pill" href="https://www.claibornechurchill.com">Claiborne &amp; Churchill</a>
+      <a class="link-pill" href="https://www.saintsbarrel.com">Saints Barrel</a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <div class="link-group-label">Eat</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://www.granadahotelandbistro.com">Granada Bistro</a>
+      <a class="link-pill" href="https://www.lunaredslo.com">Luna Red</a>
+      <a class="link-pill" href="https://www.oxandanchorslo.com">Ox + Anchor</a>
+      <a class="link-pill" href="https://www.natesonmarsh.com">Nate's</a>
+      <a class="link-pill" href="https://www.misturaslo.com">Mistura</a>
+      <a class="link-pill" href="https://laesquinaslo.com">La Esquina</a>
+      <a class="link-pill" href="https://www.goshislo.com">Goshi</a>
+      <a class="link-pill" href="https://www.flourhouseslo.com">Flour House</a>
+      <a class="link-pill" href="https://bearandthewren.com">Bear &amp; The Wren</a>
+      <a class="link-pill" href="https://www.giuseppesrestaurant.com">Giuseppe's</a>
+      <a class="link-pill" href="https://www.novorestaurant.com">Novo</a>
+      <a class="link-pill" href="https://www.emberwoodfire.com">Ember</a>
+      <a class="link-pill" href="https://www.highstdeli.com">High Street Deli</a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <div class="link-group-label">Drink</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://www.granadahotelandbistro.com/nightcap">Nightcap</a>
+      <a class="link-pill" href="https://www.sidecarslo.com">Sidecar</a>
+      <a class="link-pill" href="https://hotel-slo.com/dining/high-bar/">High Bar</a>
+      <a class="link-pill" href="https://www.themarkslo.com">The Mark</a>
+      <a class="link-pill" href="https://www.blacksheepslo.com">Black Sheep</a>
+      <a class="link-pill" href="https://www.krobardistillery.com">KROBAR</a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <div class="link-group-label">Coffee</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://www.scoutcoffeeco.com">Scout Coffee</a>
+      <a class="link-pill" href="https://linnaeascafe.com">Linnaea's</a>
+      <a class="link-pill" href="https://www.kreuzbergcalifornia.com">Kreuzberg</a>
+    </div>
+  </div>
+
+  <div class="link-group">
+    <div class="link-group-label">Do</div>
+    <div class="link-row">
+      <a class="link-pill" href="https://www.megansorganicmarket.com">Megan's</a>
+      <a class="link-pill" href="https://phoenix-books.edan.io">Phoenix Books</a>
+      <a class="link-pill" href="https://creameryslo.com">The Creamery</a>
+      <a class="link-pill" href="https://fremontslo.com">Fremont Theater</a>
+      <a class="link-pill" href="https://slobrew.com">SLO Brew Rock</a>
+    </div>
+  </div>
+</div>
+
+<div class="colophon reveal">Made with care · 2026</div>
+
+</div>
+
+<!-- ═══════ BACK TO TOP ═══════ -->
+<button class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+(function() {
+  // ── Scroll Reveal ──
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    // Stagger sibling reveals within the same parent
+    var parents = new Map();
+    reveals.forEach(function(el) {
+      var parent = el.parentElement;
+      if (!parents.has(parent)) parents.set(parent, []);
+      parents.get(parent).push(el);
+    });
+    parents.forEach(function(children) {
+      children.forEach(function(child, i) {
+        child.style.transitionDelay = (i * 0.07) + 's';
+      });
+    });
+
+    reveals.forEach(function(el) { revealObserver.observe(el); });
+  } else {
+    // Fallback: show everything
+    reveals.forEach(function(el) { el.classList.add('is-visible'); });
+  }
+
+  // ── Pull quote special handling ──
+  var pull = document.querySelector('.pull');
+  if (pull && 'IntersectionObserver' in window) {
+    var pullObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          pullObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    pullObserver.observe(pull);
+  }
+
+  // ── Day Nav ──
+  var dayNav = document.querySelector('.day-nav');
+  var dayPills = document.querySelectorAll('.day-nav-pill');
+  var daySections = [
+    document.getElementById('day-fri'),
+    document.getElementById('day-sat'),
+    document.getElementById('day-sun')
+  ].filter(Boolean);
+
+  if (dayNav && daySections.length) {
+    var dayNavTicking = false;
+
+    function updateDayNav() {
+      var firstTop = daySections[0].getBoundingClientRect().top;
+      var lastBottom = daySections[daySections.length - 1].getBoundingClientRect().bottom;
+
+      // Show nav when scrolling through itinerary sections
+      var shouldShow = firstTop < window.innerHeight * 0.7 && lastBottom > -50;
+      dayNav.classList.toggle('is-visible', shouldShow);
+
+      // Determine active day — last section whose top crossed 40% of viewport
+      if (shouldShow) {
+        var activeDayId = null;
+        for (var i = daySections.length - 1; i >= 0; i--) {
+          if (daySections[i].getBoundingClientRect().top < window.innerHeight * 0.4) {
+            activeDayId = daySections[i].id.replace('day-', '');
+            break;
+          }
+        }
+        dayPills.forEach(function(pill) {
+          pill.classList.toggle('is-active', pill.getAttribute('data-day') === activeDayId);
+        });
+      }
+    }
+
+    window.addEventListener('scroll', function() {
+      if (!dayNavTicking) {
+        requestAnimationFrame(function() {
+          updateDayNav();
+          dayNavTicking = false;
+        });
+        dayNavTicking = true;
+      }
+    }, { passive: true });
+
+    // Smooth scroll on pill tap
+    dayPills.forEach(function(pill) {
+      pill.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.getElementById('day-' + this.getAttribute('data-day'));
+        if (target) {
+          var offset = dayNav.offsetHeight + 8;
+          var y = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      });
+    });
+
+    updateDayNav();
+  }
+
+  // ── Back to Top ──
+  var btn = document.querySelector('.back-to-top');
+  var shown = false;
+  function checkScroll() {
+    var shouldShow = window.scrollY > window.innerHeight * 1.2;
+    if (shouldShow !== shown) {
+      shown = shouldShow;
+      btn.classList.toggle('is-shown', shown);
+    }
+  }
+  window.addEventListener('scroll', checkScroll, { passive: true });
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>
