@@ -79,7 +79,7 @@
   .hero-tag {
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 0.7rem;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.6);
@@ -125,7 +125,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.65);
     writing-mode: vertical-rl;
     z-index: 2;
     font-family: 'Anybody', sans-serif;
@@ -133,8 +133,8 @@
     animation: scrollPulse 2.5s ease-in-out 1.5s infinite;
   }
   @keyframes scrollPulse {
-    0%, 100% { opacity: 0.5; transform: translateY(0); }
-    50% { opacity: 0.85; transform: translateY(4px); }
+    0%, 100% { opacity: 0.65; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(4px); }
   }
 
   /* ══════════════════════════════════
@@ -180,7 +180,7 @@
   .section-subtitle {
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 0.85rem;
-    font-weight: 300;
+    font-weight: 400;
     font-style: italic;
     color: var(--fade);
     margin-bottom: 1.5rem;
@@ -225,7 +225,7 @@
   }
   .card-desc {
     font-size: 0.88rem;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--mid);
     line-height: 1.5;
   }
@@ -310,7 +310,7 @@
   }
   .tl-desc {
     font-size: 0.84rem;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--mid);
     line-height: 1.5;
     margin-top: 0.2rem;
@@ -346,8 +346,8 @@
     margin-bottom: 0.35rem;
   }
   .alt-desc {
-    font-size: 0.78rem;
-    font-weight: 300;
+    font-size: 0.82rem;
+    font-weight: 400;
     color: var(--mid);
     line-height: 1.45;
   }
@@ -411,7 +411,7 @@
   .day-divider .day-label {
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 0.82rem;
-    font-weight: 300;
+    font-weight: 400;
     font-style: italic;
     color: var(--fade);
   }
@@ -474,14 +474,16 @@
   .alt-card.featured {
     grid-column: 1 / -1;
     background: var(--warm);
-    border-left: 3px solid var(--gold);
-    padding: 1.1rem 1.15rem 1rem 1.2rem;
+    border-left: 4px solid var(--gold);
+    padding: 1.2rem 1.2rem 1rem 1.3rem;
+    box-shadow: 0 2px 8px rgba(28,26,22,0.06);
   }
   .alt-card.featured .alt-name {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
   .alt-card.featured .alt-type {
     color: var(--gold-text);
+    font-weight: 700;
   }
 
   /* ══════════════════════════════════
@@ -557,6 +559,7 @@
     text-decoration: none;
     border-bottom: 1px solid rgba(28,26,22,0.12);
     transition: border-color 0.2s ease;
+    padding: 0.15rem 0;
   }
   .card-name a:active, .tl-place a:active, .alt-name a:active {
     border-color: var(--gold);
@@ -589,7 +592,7 @@
   /* When yelp sits beside directions (inline pair) */
   .directions-link + .yelp-link {
     display: inline-block;
-    margin-left: 0.25rem;
+    margin-left: 0.75rem;
   }
 
   /* ══════════════════════════════════
@@ -647,7 +650,7 @@
   }
   .leaflet-popup-content {
     margin: 0;
-    padding: 0.85rem 1rem 0.75rem;
+    padding: 0.85rem 2rem 0.75rem 1rem;
     font-size: 0.85rem;
     line-height: 1.45;
     color: var(--ink);
@@ -680,7 +683,7 @@
   }
   .leaflet-popup-content .popup-links {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
     padding-top: 0.4rem;
     border-top: 1px solid rgba(28,26,22,0.06);
@@ -886,13 +889,15 @@
   <span class="day-nav-sep">&middot;</span>
   <a class="day-nav-pill" href="#day-sun" data-day="sun">SUN</a>
   <span class="day-nav-sep">&middot;</span>
+  <a class="day-nav-pill" href="#day-golf" data-day="golf">GOLF</a>
+  <span class="day-nav-sep">&middot;</span>
   <a class="day-nav-pill" href="#day-map" data-day="map">MAP</a>
 </nav>
 
 <div class="content">
 
 <!-- ═══════ HOME BASE ═══════ -->
-<div class="section">
+<div class="section" id="home-base">
   <div class="reveal">
     <div class="section-num">Home Base</div>
     <div class="section-title"><a href="https://www.granadahotelandbistro.com" target="_blank" rel="noopener">Granada Hotel &amp; Bistro</a></div>
@@ -919,7 +924,7 @@
 </div>
 
 <!-- ═══════ PROVISIONS ═══════ -->
-<div class="section">
+<div class="section" id="provisions">
   <div class="reveal">
     <div class="section-num">Provisions</div>
     <div class="section-title">Hit These First</div>
@@ -963,7 +968,7 @@
 </div>
 
 <!-- ═══════ GOLF GUIDE ═══════ -->
-<div class="section" id="golf-guide">
+<div class="section" id="day-golf">
   <div class="reveal">
     <div class="section-num">The Courses</div>
     <div class="section-title">SLO County Golf</div>
@@ -1204,7 +1209,7 @@
 </div>
 
 <!-- ═══════ ALSO WORTH IT ═══════ -->
-<div class="section">
+<div class="section" id="also-worth-it">
   <div class="reveal">
     <div class="section-num">If the Mood Strikes</div>
     <div class="section-title">Also Worth It</div>
@@ -1281,31 +1286,6 @@
       <div class="alt-name"><a href="https://slobrew.com" target="_blank" rel="noopener">SLO Brew Rock</a></div>
       <div class="alt-type">Brewery</div>
       <div class="alt-desc">Beer garden, fire pits, stage. Outside downtown near the airport. <a class="yelp-link" href="https://www.yelp.com/biz/slo-brew-rock-san-luis-obispo-3" target="_blank" rel="noopener">yelp</a></div>
-    </div>
-    <div class="alt-card reveal">
-      <div class="alt-name"><a href="https://www.avilabeachresort.com" target="_blank" rel="noopener">Avila Beach Golf</a></div>
-      <div class="alt-type">Golf</div>
-      <div class="alt-desc">18 holes, estuary and ocean views. 15 min south. Sunday morning round before heading home. <a class="yelp-link" href="https://www.yelp.com/biz/avila-beach-golf-course-avila-beach" target="_blank" rel="noopener">yelp</a></div>
-    </div>
-    <div class="alt-card reveal">
-      <div class="alt-name"><a href="https://chalkmountaingolf.com" target="_blank" rel="noopener">Chalk Mountain</a></div>
-      <div class="alt-type">Golf</div>
-      <div class="alt-desc">Hilly, challenging 18 in Atascadero. Well-maintained, comfortable vibe. 20 min north. <a class="yelp-link" href="https://www.yelp.com/biz/chalk-mountain-golf-course-atascadero" target="_blank" rel="noopener">yelp</a></div>
-    </div>
-    <div class="alt-card reveal">
-      <div class="alt-name"><a href="https://cypressridge.com" target="_blank" rel="noopener">Cypress Ridge</a></div>
-      <div class="alt-type">Golf</div>
-      <div class="alt-desc">Peter Jacobsen-designed 18 in Arroyo Grande. Hilly with ocean views, well-reviewed by intermediates. 20 min south. <a class="yelp-link" href="https://www.yelp.com/biz/cypress-ridge-golf-course-arroyo-grande" target="_blank" rel="noopener">yelp</a></div>
-    </div>
-    <div class="alt-card reveal">
-      <div class="alt-name"><a href="https://www.seapinesgolfresort.com" target="_blank" rel="noopener">Sea Pines</a></div>
-      <div class="alt-type">Golf · 9 holes</div>
-      <div class="alt-desc">Executive 9-hole course right in Los Osos. Good for a quick round or warm-up. Ocean-close, relaxed. 20 min. <a class="yelp-link" href="https://www.yelp.com/biz/sea-pines-golf-resort-los-osos" target="_blank" rel="noopener">yelp</a></div>
-    </div>
-    <div class="alt-card reveal">
-      <div class="alt-name"><a href="https://www.slocity.org/government/department-directory/parks-and-recreation/golf" target="_blank" rel="noopener">Dairy Creek</a></div>
-      <div class="alt-type">Golf · 9 holes</div>
-      <div class="alt-desc">City-run 9-hole in SLO, walking distance from downtown. Flat and forgiving — good quick-play option. 5 min. <a class="yelp-link" href="https://www.yelp.com/biz/dairy-creek-golf-course-san-luis-obispo" target="_blank" rel="noopener">yelp</a></div>
     </div>
     <div class="alt-card reveal">
       <div class="alt-name"><a href="https://www.madonnainn.com" target="_blank" rel="noopener">Madonna Inn</a></div>
@@ -1390,6 +1370,7 @@
   var dayNav = document.querySelector('.day-nav');
   var dayPills = document.querySelectorAll('.day-nav-pill');
   var daySections = [
+    document.getElementById('day-golf'),
     document.getElementById('day-fri'),
     document.getElementById('day-sat'),
     document.getElementById('day-sun'),
@@ -1412,12 +1393,12 @@
         var activeDayId = null;
         for (var i = daySections.length - 1; i >= 0; i--) {
           if (daySections[i].getBoundingClientRect().top < window.innerHeight * 0.4) {
-            activeDayId = daySections[i].id.replace('day-', '');
+            activeDayId = daySections[i].id;
             break;
           }
         }
         dayPills.forEach(function(pill) {
-          pill.classList.toggle('is-active', pill.getAttribute('data-day') === activeDayId);
+          pill.classList.toggle('is-active', 'day-' + pill.getAttribute('data-day') === activeDayId);
         });
       }
     }
