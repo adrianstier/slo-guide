@@ -644,25 +644,64 @@
     background: var(--cream);
   }
   .leaflet-popup-content {
-    margin: 0.75rem 1rem;
-    font-size: 0.9rem;
-    line-height: 1.4;
+    margin: 0;
+    padding: 0.85rem 1rem 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
     color: var(--ink);
+    max-width: 260px;
+    min-width: 200px;
   }
   .leaflet-popup-content strong {
     font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: normal;
     display: block;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.1rem;
   }
   .leaflet-popup-content .popup-type {
     font-family: 'Anybody', sans-serif;
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+  }
+  .leaflet-popup-content .popup-desc {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--mid);
+    margin-bottom: 0.6rem;
+  }
+  .leaflet-popup-content .popup-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgba(28,26,22,0.06);
+  }
+  .leaflet-popup-content .popup-link {
+    font-family: 'Anybody', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
     color: var(--fade);
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .leaflet-popup-content .popup-link:hover {
+    color: var(--ink);
+  }
+  .leaflet-popup-content .popup-link-sep {
+    color: rgba(28,26,22,0.15);
+    font-size: 0.5rem;
+    line-height: 1;
+    align-self: center;
   }
   .leaflet-popup-tip {
     box-shadow: none;
@@ -734,6 +773,14 @@
   }
   .leaflet-control-attribution a {
     color: var(--fade) !important;
+  }
+  .leaflet-popup-close-button {
+    color: var(--fade) !important;
+    font-size: 18px !important;
+    padding: 6px 8px 0 0 !important;
+  }
+  .leaflet-popup-close-button:hover {
+    color: var(--ink) !important;
   }
 
   /* ══════════════════════════════════
@@ -1309,54 +1356,119 @@
   };
 
   var venues = [
-    { n:'Granada Hotel', t:'Boutique Hotel', c:'stay', lat:35.2809, lng:-120.6626 },
-    { n:"Megan's Organic Market", t:'Dispensary', c:'shop', lat:35.2801, lng:-120.6640 },
-    { n:'Scout Coffee Co.', t:'Coffee', c:'coffee', lat:35.2792, lng:-120.6592 },
-    { n:'Phoenix Books', t:'Used Books', c:'shop', lat:35.2816, lng:-120.6618 },
-    { n:"Linnaea's Cafe", t:'Coffee', c:'coffee', lat:35.2790, lng:-120.6604 },
-    { n:'High Street Deli', t:'Deli', c:'food', lat:35.2767, lng:-120.6620 },
-    { n:'Luna Red', t:'Tapas + Cocktails', c:'food', lat:35.2803, lng:-120.6614 },
-    { n:'Sidecar Cocktail Co.', t:'Speakeasy', c:'drink', lat:35.2800, lng:-120.6636 },
-    { n:'Bishop Peak', t:'Hike · 4mi', c:'outdoor', lat:35.2891, lng:-120.6889 },
-    { n:"Nate's on Marsh", t:'Dinner', c:'food', lat:35.2787, lng:-120.6635 },
-    { n:'Cheap Thrills', t:'Records', c:'shop', lat:35.2806, lng:-120.6642 },
-    { n:'High Bar', t:'Rooftop Bar', c:'drink', lat:35.2785, lng:-120.6597 },
-    { n:'Ox + Anchor', t:'Steakhouse', c:'food', lat:35.2788, lng:-120.6600 },
-    { n:'Nightcap', t:'Speakeasy', c:'drink', lat:35.2811, lng:-120.6628 },
-    { n:'Mistura', t:'Peruvian', c:'food', lat:35.2803, lng:-120.6647 },
-    { n:'La Esquina', t:'Mexican + Mezcal', c:'food', lat:35.2799, lng:-120.6645 },
-    { n:'Flour House', t:'Pizza', c:'food', lat:35.2763, lng:-120.6590 },
-    { n:'Bear & The Wren', t:'Detroit Pizza', c:'food', lat:35.2810, lng:-120.6644 },
-    { n:"Giuseppe's", t:'Italian', c:'food', lat:35.2793, lng:-120.6627 },
-    { n:'Novo', t:'Creekside Dinner', c:'food', lat:35.2805, lng:-120.6630 },
-    { n:'Goshi', t:'Sushi · Omakase', c:'food', lat:35.2812, lng:-120.6646 },
-    { n:'Ember', t:'Wood-Fire', c:'food', lat:35.1216, lng:-120.5899 },
-    { n:'Black Sheep', t:'Gastropub', c:'food', lat:35.2819, lng:-120.6628 },
-    { n:'Saints Barrel', t:'Wine Bar', c:'drink', lat:35.2802, lng:-120.6633 },
-    { n:'KROBAR', t:'Distillery', c:'drink', lat:35.2794, lng:-120.6622 },
-    { n:'Kreuzberg', t:'Coffee + Bar', c:'drink', lat:35.2784, lng:-120.6612 },
-    { n:'The Mark', t:'Bar + Live Music', c:'drink', lat:35.2808, lng:-120.6638 },
-    { n:'Fremont Theater', t:'Live Music', c:'drink', lat:35.2811, lng:-120.6620 },
-    { n:'SLO Brew Rock', t:'Brewery', c:'drink', lat:35.2363, lng:-120.6450 },
-    { n:'Madonna Inn', t:'Landmark', c:'stay', lat:35.2625, lng:-120.6975 },
-    { n:'Hunter Ranch', t:'Golf · 18 holes', c:'golf', lat:35.6296, lng:-120.6780 },
-    { n:'Morro Bay Golf', t:'Golf · 18 holes', c:'golf', lat:35.3631, lng:-120.8372 },
-    { n:'Avila Beach Golf', t:'Golf · 18 holes', c:'golf', lat:35.1927, lng:-120.7305 },
-    { n:'Chalk Mountain', t:'Golf · 18 holes', c:'golf', lat:35.4467, lng:-120.5950 },
-    { n:'Cypress Ridge', t:'Golf · 18 holes', c:'golf', lat:35.1295, lng:-120.5780 },
-    { n:'Sea Pines', t:'Golf · 9 holes', c:'golf', lat:35.3184, lng:-120.8337 },
-    { n:'Dairy Creek', t:'Golf · 9 holes', c:'golf', lat:35.2935, lng:-120.6744 }
+    { n:'Granada Hotel', t:'Boutique Hotel', c:'stay', lat:35.2809, lng:-120.6626, d:'1922 brick building. Rooftop terrace, Linus bikes, Persian rugs. 17 rooms on Higuera St.', url:'https://www.granadahotelandbistro.com', yelp:'https://www.yelp.com/biz/granada-hotel-and-bistro-san-luis-obispo' },
+    { n:"Megan's Organic Market", t:'Dispensary', c:'shop', lat:35.2801, lng:-120.6640, d:'Downtown on Higuera. Top selection, browse-friendly. Flower, edibles, pre-rolls.', url:'https://www.megansorganicmarket.com', yelp:'https://www.yelp.com/biz/megan-s-organic-market-san-luis-obispo' },
+    { n:'Scout Coffee Co.', t:'Coffee', c:'coffee', lat:35.2792, lng:-120.6592, d:'Own roasting company. Berlin-inspired. The morning anchor every day of the trip.', url:'https://www.scoutcoffeeco.com', yelp:'https://www.yelp.com/biz/scout-coffee-company-san-luis-obispo' },
+    { n:'Phoenix Books', t:'Used Books', c:'shop', lat:35.2816, lng:-120.6618, d:'40+ years on Monterey St. Chaotic stacks, buried treasure.', url:'https://phoenix-books.edan.io', yelp:'https://www.yelp.com/biz/phoenix-books-san-luis-obispo' },
+    { n:"Linnaea's Cafe", t:'Coffee', c:'coffee', lat:35.2790, lng:-120.6604, d:'The OG SLO coffee spot since 1984. Garden courtyard, live music weekends.', url:'https://linnaeascafe.com', yelp:'https://www.yelp.com/biz/linnaeas-cafe-san-luis-obispo' },
+    { n:'High Street Deli', t:'Deli', c:'food', lat:35.2767, lng:-120.6620, d:'Legendary sandwiches since 1927. The Dutch Punch is famous.', url:'https://www.highstdeli.com', yelp:'https://www.yelp.com/biz/high-street-market-and-deli-san-luis-obispo' },
+    { n:'Luna Red', t:'Tapas + Cocktails', c:'food', lat:35.2803, lng:-120.6614, d:'Creekside patio by the Mission. Tapas, paella, craft cocktails. Birria nachos, spicy marg.', url:'https://www.lunaredslo.com', yelp:'https://www.yelp.com/biz/luna-red-san-luis-obispo' },
+    { n:'Sidecar Cocktail Co.', t:'Speakeasy', c:'drink', lat:35.2800, lng:-120.6636, d:'Basement speakeasy on the creek. Retro styling, serious cocktails.', url:'https://www.sidecarslo.com', yelp:'https://www.yelp.com/biz/sidecar-san-luis-obispo' },
+    { n:'Bishop Peak', t:'Hike · 4mi', c:'outdoor', lat:35.2891, lng:-120.6889, d:'Tallest of the Nine Sisters. 1,000 ft gain. 360 views of ocean, valleys, town below.' },
+    { n:"Nate's on Marsh", t:'Dinner', c:'food', lat:35.2787, lng:-120.6635, d:'Converted house. Pappardelle w/ Tablas Creek lamb ragu. Warm, personal.', url:'https://www.natesonmarsh.com', yelp:'https://www.yelp.com/biz/nates-on-marsh-san-luis-obispo' },
+    { n:'Cheap Thrills', t:'Records', c:'shop', lat:35.2806, lng:-120.6642, d:'Vinyl, CDs, vintage video games on Higuera. The record store SLO deserves.', url:'https://cheapthrills.biz', yelp:'https://www.yelp.com/biz/cheap-thrills-records-san-luis-obispo' },
+    { n:'High Bar', t:'Rooftop Bar', c:'drink', lat:35.2785, lng:-120.6597, d:'Rooftop at Hotel SLO. 360 views of the morros, bocce court, cocktails from the chef\'s garden.', url:'https://hotel-slo.com/dining/high-bar/', yelp:'https://www.yelp.com/biz/high-bar-san-luis-obispo' },
+    { n:'Ox + Anchor', t:'Steakhouse', c:'food', lat:35.2788, lng:-120.6600, d:'Hotel SLO steakhouse. Michelin-noted. Hanger steak, oysters, killer wine list.', url:'https://oxandanchor.com', yelp:'https://www.yelp.com/biz/ox-anchor-san-luis-obispo' },
+    { n:'Nightcap', t:'Speakeasy', c:'drink', lat:35.2811, lng:-120.6628, d:'Below the Granada lobby. Dark, intimate, cocktails are excellent.', url:'https://www.granadahotelandbistro.com/nightcap', yelp:'https://www.yelp.com/biz/nightcap-san-luis-obispo' },
+    { n:'Mistura', t:'Peruvian', c:'food', lat:35.2803, lng:-120.6647, d:'Pisco sour, ceviche on a hot stone, causa roll. One more meal you\'ll remember.', url:'https://www.misturarestaurants.com', yelp:'https://www.yelp.com/biz/mistura-restaurant-san-luis-obispo-2' },
+    { n:'La Esquina', t:'Mexican + Mezcal', c:'food', lat:35.2799, lng:-120.6645, d:'Polished Mexican, premium mezcal bar. Best Margarita in SLO 2024.', url:'https://laesquinaslo.com', yelp:'https://www.yelp.com/biz/la-esquina-taqueria-san-luis-obispo' },
+    { n:'Flour House', t:'Pizza', c:'food', lat:35.2763, lng:-120.6590, d:'Wood-fired Neapolitan, top 50 in the USA. Creekside patio.', url:'https://www.flourhouseslo.com', yelp:'https://www.yelp.com/biz/flour-house-slo-san-luis-obispo' },
+    { n:'Bear & The Wren', t:'Detroit Pizza', c:'food', lat:35.2810, lng:-120.6644, d:'The Creamery. Bee Sting with hot honey. Cast iron cookie for dessert.', url:'https://bearandthewren.com', yelp:'https://www.yelp.com/biz/bear-and-the-wren-san-luis-obispo' },
+    { n:"Giuseppe's", t:'Italian', c:'food', lat:35.2793, lng:-120.6627, d:'Best Restaurant in SLO 2024. 10-acre farm, wood-fired pizza, handmade pasta.', url:'https://www.giuseppesrestaurant.com', yelp:'https://www.yelp.com/biz/giuseppes-cucina-rustica-san-luis-obispo-3' },
+    { n:'Novo', t:'Creekside Dinner', c:'food', lat:35.2805, lng:-120.6630, d:'Best Outdoor Dining 21 years running. Under mature trees, global menu.', url:'https://www.novorestaurant.com', yelp:'https://www.yelp.com/biz/novo-san-luis-obispo-2' },
+    { n:'Goshi', t:'Sushi · Omakase', c:'food', lat:35.2812, lng:-120.6646, d:'4.9 stars. $30 omakase, best sushi in the county. At The Creamery.', url:'https://www.goshislo.com', yelp:'https://www.yelp.com/biz/goshi-japanese-restaurant-san-luis-obispo' },
+    { n:'Ember', t:'Wood-Fire', c:'food', lat:35.1216, lng:-120.5899, d:'Arroyo Grande, 20 min. Michelin-mentioned. 50-layer lasagna, wild chanterelle pizza.', url:'https://www.emberwoodfire.com', yelp:'https://www.yelp.com/biz/ember-arroyo-grande' },
+    { n:'Black Sheep', t:'Gastropub', c:'food', lat:35.2819, lng:-120.6628, d:'Best Happy Hour 2024. Award-winning mac and cheese. Fireplace, locals.', url:'https://www.blacksheepslo.com', yelp:'https://www.yelp.com/biz/black-sheep-bar-and-grill-san-luis-obispo' },
+    { n:'Saints Barrel', t:'Wine Bar', c:'drink', lat:35.2802, lng:-120.6633, d:'Best Wine Bar 2024. Creekside patio, local + international wines.', url:'https://www.saintsbarrel.com', yelp:'https://www.yelp.com/biz/saints-barrel-san-luis-obispo' },
+    { n:'KROBAR', t:'Distillery', c:'drink', lat:35.2794, lng:-120.6622, d:'Craft spirits, tasting flights. Best Bartender 2024. Next to Central Coast Brewing.', url:'https://www.krobardistillery.com', yelp:'https://www.yelp.com/biz/krobar-craft-distillery-san-luis-obispo' },
+    { n:'Kreuzberg', t:'Coffee + Bar', c:'drink', lat:35.2784, lng:-120.6612, d:'Boho-European cafe by day, cocktail lounge Thu\u2013Sat. All-day vibe.', url:'https://www.kreuzbergcalifornia.com', yelp:'https://www.yelp.com/biz/kreuzberg-california-san-luis-obispo-2' },
+    { n:'The Mark', t:'Bar + Live Music', c:'drink', lat:35.2808, lng:-120.6638, d:'Big patio, live music Saturdays. Tapas, tacos, legendary margaritas.', url:'https://www.themarkslo.com', yelp:'https://www.yelp.com/biz/the-mark-san-luis-obispo-4' },
+    { n:'Fremont Theater', t:'Live Music', c:'drink', lat:35.2811, lng:-120.6620, d:'Art deco gem. National acts come through regularly. Check schedule.', url:'https://fremontslo.com', yelp:'https://www.yelp.com/biz/fremont-theater-san-luis-obispo-2' },
+    { n:'SLO Brew Rock', t:'Brewery', c:'drink', lat:35.2363, lng:-120.6450, d:'Beer garden, fire pits, outdoor stage. Local brews, food trucks.', url:'https://slobrew.com', yelp:'https://www.yelp.com/biz/slo-brew-rock-san-luis-obispo-3' },
+    { n:'Madonna Inn', t:'Landmark', c:'stay', lat:35.2625, lng:-120.6975, d:'The kitschy landmark. Gold Rush Steak House for the spectacle.', url:'https://www.madonnainn.com', yelp:'https://www.yelp.com/biz/madonna-inn-san-luis-obispo-3' },
+    { n:'Hunter Ranch', t:'Golf \u00b7 18 holes', c:'golf', lat:35.6296, lng:-120.6780, d:'Best course in SLO County. 4.5 stars Golf Digest. Rolling oak-studded fairways, no houses. Paso Robles, 40 min.', url:'https://www.hunterranchgolf.com', yelp:'https://www.yelp.com/biz/hunter-ranch-golf-course-paso-robles' },
+    { n:'Morro Bay Golf', t:'Golf \u00b7 18 holes', c:'golf', lat:35.3631, lng:-120.8372, d:'Most scenic muni in California. Ocean views from every hole, Morro Rock backdrop. 25 min.', url:'https://golfmorrobay.com', yelp:'https://www.yelp.com/biz/morro-bay-golf-course-morro-bay' },
+    { n:'Avila Beach Golf', t:'Golf \u00b7 18 holes', c:'golf', lat:35.1927, lng:-120.7305, d:'18 holes, estuary and ocean views. 15 min south of SLO.', url:'https://www.avilabeachresort.com', yelp:'https://www.yelp.com/biz/avila-beach-golf-course-avila-beach' },
+    { n:'Chalk Mountain', t:'Golf \u00b7 18 holes', c:'golf', lat:35.4467, lng:-120.5950, d:'Hilly, challenging 18 in Atascadero. Well-maintained. 20 min north.', url:'https://chalkmountaingolf.com', yelp:'https://www.yelp.com/biz/chalk-mountain-golf-course-atascadero' },
+    { n:'Cypress Ridge', t:'Golf \u00b7 18 holes', c:'golf', lat:35.1295, lng:-120.5780, d:'Peter Jacobsen design. Hilly with ocean views, Arroyo Grande. 20 min south.', url:'https://cypressridge.com', yelp:'https://www.yelp.com/biz/cypress-ridge-golf-course-arroyo-grande' },
+    { n:'Sea Pines', t:'Golf \u00b7 9 holes', c:'golf', lat:35.3184, lng:-120.8337, d:'Executive 9-hole in Los Osos. Quick round, ocean-close. 20 min.', url:'https://www.seapinesgolfresort.com', yelp:'https://www.yelp.com/biz/sea-pines-golf-resort-los-osos' },
+    { n:'Dairy Creek', t:'Golf \u00b7 9 holes', c:'golf', lat:35.2935, lng:-120.6744, d:'City-run 9-hole, walking distance from downtown. Flat, forgiving. 5 min.', url:'https://www.slocity.org/government/department-directory/parks-and-recreation/golf', yelp:'https://www.yelp.com/biz/dairy-creek-golf-course-san-luis-obispo' }
   ];
 
-  function buildPopupEl(name, type) {
+  function buildPopupEl(v) {
     var container = document.createElement('div');
+
+    // Name
     var strong = document.createElement('strong');
-    strong.textContent = name;
+    strong.textContent = v.n;
+    container.appendChild(strong);
+
+    // Type badge with category color
     var span = document.createElement('span');
     span.className = 'popup-type';
-    span.textContent = type;
-    container.appendChild(strong);
+    span.textContent = v.t;
+    span.style.background = cats[v.c].color + '18';
+    span.style.color = cats[v.c].color;
     container.appendChild(span);
+
+    // Description
+    if (v.d) {
+      var desc = document.createElement('div');
+      desc.className = 'popup-desc';
+      desc.textContent = v.d;
+      container.appendChild(desc);
+    }
+
+    // Links row
+    var hasLinks = v.url || v.yelp;
+    if (hasLinks) {
+      var links = document.createElement('div');
+      links.className = 'popup-links';
+
+      if (v.url) {
+        var siteLink = document.createElement('a');
+        siteLink.className = 'popup-link';
+        siteLink.href = v.url;
+        siteLink.target = '_blank';
+        siteLink.rel = 'noopener';
+        siteLink.textContent = '\u2197 website';
+        links.appendChild(siteLink);
+      }
+
+      if (v.url && v.yelp) {
+        var sep = document.createElement('span');
+        sep.className = 'popup-link-sep';
+        sep.textContent = '\u00b7';
+        links.appendChild(sep);
+      }
+
+      if (v.yelp) {
+        var yelpLink = document.createElement('a');
+        yelpLink.className = 'popup-link';
+        yelpLink.href = v.yelp;
+        yelpLink.target = '_blank';
+        yelpLink.rel = 'noopener';
+        yelpLink.textContent = 'yelp';
+        links.appendChild(yelpLink);
+      }
+
+      // Directions link
+      var sep2 = document.createElement('span');
+      sep2.className = 'popup-link-sep';
+      sep2.textContent = '\u00b7';
+      links.appendChild(sep2);
+
+      var dirLink = document.createElement('a');
+      dirLink.className = 'popup-link';
+      dirLink.href = 'https://maps.google.com/?q=' + encodeURIComponent(v.n + ' San Luis Obispo CA');
+      dirLink.target = '_blank';
+      dirLink.rel = 'noopener';
+      dirLink.textContent = '\u2197 directions';
+      links.appendChild(dirLink);
+
+      container.appendChild(links);
+    }
+
     return container;
   }
 
@@ -1424,9 +1536,10 @@
     map = L.map('guide-map', {
       center: [35.2800, -120.6625],
       zoom: 14,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       zoomControl: true,
-      attributionControl: true
+      attributionControl: true,
+      tap: true
     });
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -1436,8 +1549,9 @@
     }).addTo(map);
 
     venues.forEach(function(v) {
+      var baseRadius = v.c === 'golf' ? 9 : 6;
       var marker = L.circleMarker([v.lat, v.lng], {
-        radius: v.c === 'golf' ? 9 : 6,
+        radius: baseRadius,
         fillColor: cats[v.c].color,
         color: '#fff',
         weight: 2,
@@ -1445,8 +1559,40 @@
         fillOpacity: 0.9
       }).addTo(map);
 
-      marker.bindPopup(buildPopupEl(v.n, v.t));
+      marker.bindPopup(buildPopupEl(v), { maxWidth: 280, minWidth: 200, closeButton: true });
       marker._venueData = v;
+      marker._baseRadius = baseRadius;
+
+      // Hover: grow marker
+      marker.on('mouseover', function() {
+        this.setRadius(baseRadius + 3);
+        this.setStyle({ weight: 3 });
+      });
+      marker.on('mouseout', function() {
+        if (!this.isPopupOpen()) {
+          this.setRadius(baseRadius);
+          this.setStyle({ weight: 2 });
+        }
+      });
+
+      // Click: zoom in smoothly and open popup
+      marker.on('click', function() {
+        var currentZoom = map.getZoom();
+        if (currentZoom < 15) {
+          map.flyTo(this.getLatLng(), 15, { duration: 0.5 });
+        } else {
+          map.panTo(this.getLatLng());
+        }
+        this.setRadius(baseRadius + 3);
+        this.setStyle({ weight: 3 });
+      });
+
+      // Reset marker on popup close
+      marker.on('popupclose', function() {
+        this.setRadius(baseRadius);
+        this.setStyle({ weight: 2 });
+      });
+
       markers.push(marker);
     });
 
