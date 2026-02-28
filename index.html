@@ -41,11 +41,11 @@
      HERO
      ══════════════════════════════════ */
   .hero {
-    min-height: 100svh;
+    min-height: 60svh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 2rem 1.5rem 3rem;
+    padding: 2rem 1.5rem 2.5rem;
     position: relative;
     overflow: hidden;
   }
@@ -53,26 +53,21 @@
     position: absolute;
     inset: 0;
     background:
+      url('hero-morro.jpg') center center / cover no-repeat,
       linear-gradient(135deg, #c4956a 0%, #8ba4a0 40%, #6b8ea3 70%, #d4a96a 100%);
-    background-size: 200% 200%;
-    animation: heroShift 12s ease-in-out infinite;
   }
   .hero-bg::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(28,26,22,0) 30%, rgba(28,26,22,0.65) 100%);
-  }
-  @keyframes heroShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    background: linear-gradient(180deg, rgba(28,26,22,0) 20%, rgba(28,26,22,0.6) 100%);
   }
   .hero::before {
     content: '';
     position: absolute;
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-    opacity: 0.5;
+    opacity: 0.3;
     pointer-events: none;
     z-index: 1;
   }
@@ -838,6 +833,7 @@
     .hero-sub { font-size: 1rem; }
   }
   @media (min-width: 768px) {
+    .hero { min-height: 50svh; }
     .map-wrap { height: 65vh; max-height: 700px; min-height: 450px; }
     .leaflet-popup-content { max-width: 300px; min-width: 220px; }
     .content { max-width: 640px; margin: 0 auto; }
@@ -852,7 +848,6 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
-    .hero-bg { animation: none; }
     .reveal {
       opacity: 1;
       transform: none;
@@ -863,7 +858,7 @@
       opacity: 1;
       transform: none;
     }
-    .hero-scroll { animation: none; opacity: 0.5; }
+    .hero-scroll { animation: none; opacity: 0.65; }
     .day-nav { transition-duration: 0.01ms; }
     .day-nav-pill, .day-nav-pill::after { transition-duration: 0.01ms; }
   }
