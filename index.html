@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Anybody:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
   :root {
     --sand: #f5f0e8;
@@ -610,6 +612,131 @@
   }
 
   /* ══════════════════════════════════
+     MAP
+     ══════════════════════════════════ */
+  .map-section {
+    padding: 0 0 2rem;
+  }
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 65vh;
+    min-height: 400px;
+    max-height: 700px;
+    border: 1px solid rgba(28,26,22,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 0 1.5rem;
+    width: calc(100% - 3rem);
+    box-shadow: inset 0 2px 8px rgba(28,26,22,0.04);
+  }
+  #guide-map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  /* Override Leaflet defaults to match palette */
+  .leaflet-popup-content-wrapper {
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(28,26,22,0.15);
+    font-family: 'Newsreader', Georgia, serif;
+    padding: 0;
+    background: var(--cream);
+  }
+  .leaflet-popup-content {
+    margin: 0.75rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .leaflet-popup-content strong {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: normal;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+  .leaflet-popup-content .popup-type {
+    font-family: 'Anybody', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fade);
+  }
+  .leaflet-popup-tip {
+    box-shadow: none;
+    background: var(--cream);
+  }
+  .leaflet-container {
+    background: var(--warm);
+    font-family: 'Newsreader', Georgia, serif;
+  }
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.75rem 1.5rem 1rem;
+    justify-content: center;
+  }
+  .map-legend-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Anybody', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fade);
+    background: var(--warm);
+    border: 1px solid rgba(28,26,22,0.06);
+    border-radius: 100px;
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    transition: opacity 0.2s, border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .map-legend-btn .legend-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .map-legend-btn.is-off {
+    opacity: 0.35;
+  }
+  .map-legend-btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(28,26,22,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+  }
+  .leaflet-control-zoom a {
+    background: var(--cream) !important;
+    color: var(--ink) !important;
+    border-color: rgba(28,26,22,0.08) !important;
+    font-family: 'Anybody', sans-serif !important;
+    font-weight: 700 !important;
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    font-size: 14px !important;
+  }
+  .leaflet-control-attribution {
+    font-size: 9px !important;
+    background: rgba(245,240,232,0.85) !important;
+    color: var(--fade) !important;
+  }
+  .leaflet-control-attribution a {
+    color: var(--fade) !important;
+  }
+
+  /* ══════════════════════════════════
      RESPONSIVE
      ══════════════════════════════════ */
   @media (max-width: 360px) {
@@ -653,7 +780,7 @@
   <div class="hero-tag">A Long Weekend Guide</div>
   <h1>SLO</h1>
   <div class="hero-sub">Golf, wine, good smoke &amp; the Morros</div>
-  <div class="hero-scroll">scroll</div>
+  <div class="hero-scroll" aria-hidden="true">scroll</div>
 </div>
 
 <!-- ═══════ DAY NAV ═══════ -->
@@ -663,6 +790,8 @@
   <a class="day-nav-pill" href="#day-sat" data-day="sat">SAT</a>
   <span class="day-nav-sep">&middot;</span>
   <a class="day-nav-pill" href="#day-sun" data-day="sun">SUN</a>
+  <span class="day-nav-sep">&middot;</span>
+  <a class="day-nav-pill" href="#day-map" data-day="map">MAP</a>
 </nav>
 
 <div class="content">
@@ -1019,6 +1148,19 @@
 </div>
 
 
+<!-- ═══════ MAP ═══════ -->
+<div class="section map-section" id="day-map">
+  <div class="reveal">
+    <div class="section-num">Explore</div>
+    <div class="section-title">The Map</div>
+    <div class="section-subtitle">Every spot in the guide</div>
+  </div>
+  <div class="map-legend" id="map-legend"></div>
+  <div class="map-wrap reveal">
+    <div id="guide-map" role="application" aria-label="Interactive map of all guide venues"></div>
+  </div>
+</div>
+
 <div class="colophon reveal">Made with care · 2026</div>
 
 </div>
@@ -1081,7 +1223,8 @@
   var daySections = [
     document.getElementById('day-fri'),
     document.getElementById('day-sat'),
-    document.getElementById('day-sun')
+    document.getElementById('day-sun'),
+    document.getElementById('day-map')
   ].filter(Boolean);
 
   if (dayNav && daySections.length) {
@@ -1150,6 +1293,198 @@
   btn.addEventListener('click', function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+})();
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function() {
+  var cats = {
+    stay:    { label: 'Stay',    color: '#b8943e' },
+    food:    { label: 'Eat',     color: '#c4714a' },
+    drink:   { label: 'Drink',   color: '#8b3a62' },
+    coffee:  { label: 'Coffee',  color: '#8b6240' },
+    shop:    { label: 'Shop',    color: '#5c5647' },
+    outdoor: { label: 'Outdoors',color: '#7a8c6e' },
+    golf:    { label: 'Golf',    color: '#4a8a5a' }
+  };
+
+  var venues = [
+    { n:'Granada Hotel', t:'Boutique Hotel', c:'stay', lat:35.2809, lng:-120.6626 },
+    { n:"Megan's Organic Market", t:'Dispensary', c:'shop', lat:35.2801, lng:-120.6640 },
+    { n:'Scout Coffee Co.', t:'Coffee', c:'coffee', lat:35.2792, lng:-120.6592 },
+    { n:'Phoenix Books', t:'Used Books', c:'shop', lat:35.2816, lng:-120.6618 },
+    { n:"Linnaea's Cafe", t:'Coffee', c:'coffee', lat:35.2790, lng:-120.6604 },
+    { n:'High Street Deli', t:'Deli', c:'food', lat:35.2767, lng:-120.6620 },
+    { n:'Luna Red', t:'Tapas + Cocktails', c:'food', lat:35.2803, lng:-120.6614 },
+    { n:'Sidecar Cocktail Co.', t:'Speakeasy', c:'drink', lat:35.2800, lng:-120.6636 },
+    { n:'Bishop Peak', t:'Hike · 4mi', c:'outdoor', lat:35.2891, lng:-120.6889 },
+    { n:"Nate's on Marsh", t:'Dinner', c:'food', lat:35.2787, lng:-120.6635 },
+    { n:'Cheap Thrills', t:'Records', c:'shop', lat:35.2806, lng:-120.6642 },
+    { n:'High Bar', t:'Rooftop Bar', c:'drink', lat:35.2785, lng:-120.6597 },
+    { n:'Ox + Anchor', t:'Steakhouse', c:'food', lat:35.2788, lng:-120.6600 },
+    { n:'Nightcap', t:'Speakeasy', c:'drink', lat:35.2811, lng:-120.6628 },
+    { n:'Mistura', t:'Peruvian', c:'food', lat:35.2803, lng:-120.6647 },
+    { n:'La Esquina', t:'Mexican + Mezcal', c:'food', lat:35.2799, lng:-120.6645 },
+    { n:'Flour House', t:'Pizza', c:'food', lat:35.2763, lng:-120.6590 },
+    { n:'Bear & The Wren', t:'Detroit Pizza', c:'food', lat:35.2810, lng:-120.6644 },
+    { n:"Giuseppe's", t:'Italian', c:'food', lat:35.2793, lng:-120.6627 },
+    { n:'Novo', t:'Creekside Dinner', c:'food', lat:35.2805, lng:-120.6630 },
+    { n:'Goshi', t:'Sushi · Omakase', c:'food', lat:35.2812, lng:-120.6646 },
+    { n:'Ember', t:'Wood-Fire', c:'food', lat:35.1216, lng:-120.5899 },
+    { n:'Black Sheep', t:'Gastropub', c:'food', lat:35.2819, lng:-120.6628 },
+    { n:'Saints Barrel', t:'Wine Bar', c:'drink', lat:35.2802, lng:-120.6633 },
+    { n:'KROBAR', t:'Distillery', c:'drink', lat:35.2794, lng:-120.6622 },
+    { n:'Kreuzberg', t:'Coffee + Bar', c:'drink', lat:35.2784, lng:-120.6612 },
+    { n:'The Mark', t:'Bar + Live Music', c:'drink', lat:35.2808, lng:-120.6638 },
+    { n:'Fremont Theater', t:'Live Music', c:'drink', lat:35.2811, lng:-120.6620 },
+    { n:'SLO Brew Rock', t:'Brewery', c:'drink', lat:35.2363, lng:-120.6450 },
+    { n:'Madonna Inn', t:'Landmark', c:'stay', lat:35.2625, lng:-120.6975 },
+    { n:'Hunter Ranch', t:'Golf · 18 holes', c:'golf', lat:35.6296, lng:-120.6780 },
+    { n:'Morro Bay Golf', t:'Golf · 18 holes', c:'golf', lat:35.3631, lng:-120.8372 },
+    { n:'Avila Beach Golf', t:'Golf · 18 holes', c:'golf', lat:35.1927, lng:-120.7305 },
+    { n:'Chalk Mountain', t:'Golf · 18 holes', c:'golf', lat:35.4467, lng:-120.5950 },
+    { n:'Cypress Ridge', t:'Golf · 18 holes', c:'golf', lat:35.1295, lng:-120.5780 },
+    { n:'Sea Pines', t:'Golf · 9 holes', c:'golf', lat:35.3184, lng:-120.8337 },
+    { n:'Dairy Creek', t:'Golf · 9 holes', c:'golf', lat:35.2935, lng:-120.6744 }
+  ];
+
+  function buildPopupEl(name, type) {
+    var container = document.createElement('div');
+    var strong = document.createElement('strong');
+    strong.textContent = name;
+    var span = document.createElement('span');
+    span.className = 'popup-type';
+    span.textContent = type;
+    container.appendChild(strong);
+    container.appendChild(span);
+    return container;
+  }
+
+  function buildLegendBtn(key, cat) {
+    var btn = document.createElement('button');
+    btn.className = 'map-legend-btn';
+    btn.setAttribute('data-cat', key);
+    btn.setAttribute('aria-pressed', 'true');
+    var dot = document.createElement('span');
+    dot.className = 'legend-dot';
+    dot.style.background = cat.color;
+    btn.appendChild(dot);
+    btn.appendChild(document.createTextNode(cat.label));
+    return btn;
+  }
+
+  // Build legend
+  var legendEl = document.getElementById('map-legend');
+  var activeFilters = {};
+  Object.keys(cats).forEach(function(key) {
+    activeFilters[key] = true;
+    var btn = buildLegendBtn(key, cats[key]);
+    btn.addEventListener('click', function() {
+      activeFilters[key] = !activeFilters[key];
+      btn.classList.toggle('is-off', !activeFilters[key]);
+      btn.setAttribute('aria-pressed', activeFilters[key] ? 'true' : 'false');
+      updateMarkers();
+    });
+    legendEl.appendChild(btn);
+  });
+
+  // Add zoom toggle button
+  var zoomBtn = document.createElement('button');
+  zoomBtn.className = 'map-legend-btn';
+  zoomBtn.textContent = 'Show All';
+  zoomBtn.style.marginLeft = '0.3rem';
+  var showingAll = false;
+  zoomBtn.addEventListener('click', function() {
+    if (!map) return;
+    showingAll = !showingAll;
+    if (showingAll) {
+      map.fitBounds(L.featureGroup(markers).getBounds().pad(0.08));
+      zoomBtn.textContent = 'Downtown';
+    } else {
+      map.setView([35.2800, -120.6625], 14);
+      zoomBtn.textContent = 'Show All';
+    }
+  });
+  legendEl.appendChild(zoomBtn);
+
+  // Initialize map lazily when section is visible
+  var mapEl = document.getElementById('guide-map');
+  var map = null;
+  var markers = [];
+
+  function initMap() {
+    if (map) return;
+    if (typeof L === 'undefined') {
+      var msg = document.createElement('p');
+      msg.textContent = 'Map unavailable — check your connection.';
+      msg.style.cssText = 'text-align:center;padding:3rem 1rem;color:var(--fade);font-style:italic;';
+      mapEl.appendChild(msg);
+      return;
+    }
+    map = L.map('guide-map', {
+      center: [35.2800, -120.6625],
+      zoom: 14,
+      scrollWheelZoom: false,
+      zoomControl: true,
+      attributionControl: true
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '\u00a9 <a href="https://www.openstreetmap.org/copyright">OSM</a> \u00a9 <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 18
+    }).addTo(map);
+
+    venues.forEach(function(v) {
+      var marker = L.circleMarker([v.lat, v.lng], {
+        radius: v.c === 'golf' ? 9 : 6,
+        fillColor: cats[v.c].color,
+        color: '#fff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.9
+      }).addTo(map);
+
+      marker.bindPopup(buildPopupEl(v.n, v.t));
+      marker._venueData = v;
+      markers.push(marker);
+    });
+
+    // Store full bounds for "show all" button
+    var allBounds = L.featureGroup(markers).getBounds().pad(0.08);
+
+    // Fix tile rendering after reveal animation
+    var mapWrap = mapEl.closest('.map-wrap');
+    if (mapWrap) {
+      mapWrap.addEventListener('transitionend', function handler() {
+        map.invalidateSize();
+        mapWrap.removeEventListener('transitionend', handler);
+      });
+    }
+  }
+
+  function updateMarkers() {
+    markers.forEach(function(m) {
+      if (activeFilters[m._venueData.c]) {
+        if (!map.hasLayer(m)) m.addTo(map);
+      } else {
+        if (map.hasLayer(m)) map.removeLayer(m);
+      }
+    });
+  }
+
+  // Lazy-init: only load map when it scrolls into view
+  if ('IntersectionObserver' in window) {
+    var mapObserver = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        initMap();
+        mapObserver.disconnect();
+      }
+    }, { rootMargin: '200px' });
+    mapObserver.observe(mapEl);
+  } else {
+    initMap();
+  }
 })();
 </script>
 </body>
